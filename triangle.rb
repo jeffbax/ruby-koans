@@ -14,6 +14,12 @@
 #   about_triangle_project_2.rb
 #
 def triangle(a, b, c)
+  if [a,b,c].find{|v| v <= 0}
+    raise TriangleError, 'Values cannot be <= 0'
+  elsif (a + b <= c) || (b + c <= a) || (a + c <= b)
+    raise TriangleError, 'Sides do not add up'
+  end
+
   return a == b && b == c ? :equilateral
     : a == b || b == c || c == a ? :isosceles
     : :scalene
