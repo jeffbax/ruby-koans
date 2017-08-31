@@ -29,8 +29,37 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 #
 # Your goal is to write the score method.
 
+def get_score_for_number_at_count(number, count)
+  remainder = count % 3
+  score = 0
+
+  if count >= 3
+    # special case for triples
+    score += number == 1 ? 1000 : number * 100
+  end
+
+  if number == 1
+    score += remainder * 100
+  elsif number == 5
+    score += remainder * 50
+  end
+
+  return score
+end
+
 def score(dice)
   # You need to write this method
+  counts = Array.new(6, 0)
+
+  dice.each do |roll|
+    counts[roll -1] += 1
+  end
+
+  score = counts.each_with_index.inject(0) do |s, (count, index) |
+    s += get_score_for_number_at_count(index + 1, count)
+  end
+
+  return score
 end
 
 class AboutScoringProject < Neo::Koan
